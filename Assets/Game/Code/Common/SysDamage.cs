@@ -30,7 +30,7 @@ public sealed class SysDamage : ISystem {
             health.health -= damage.damage;
             damages.Remove(entity);
             if (health.health <= 0)
-                World.RemoveEntity(entity);
+                Debug.Log($"Entity {entity.Id} is dead");
         }
     }
 }

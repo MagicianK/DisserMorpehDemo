@@ -11,3 +11,4 @@ public struct Movement : IComponent {
     public float speed;
     [HideInInspector] public Rigidbody2D rb;
 }
+

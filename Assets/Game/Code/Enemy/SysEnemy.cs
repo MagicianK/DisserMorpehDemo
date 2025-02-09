@@ -32,6 +32,7 @@ public sealed class SysEnemy : ISystem {
         {
             ref var move = ref moveStash.Get(entity);
             ref var scanner = ref scanners.Get(entity);
+            if (scanner.enemyGo == null) return;
             var pos = scanner.enemyGo.transform.position;
             move.direction = Vector2.zero;
             if (!scanner.lost)

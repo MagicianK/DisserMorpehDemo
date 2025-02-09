@@ -31,9 +31,12 @@ public sealed class SysBullet : ISystem {
             ref var bullet = ref bullets.Get(entity);
             if (collide.collided)
             {
-                damages.Set(collide.entity, new Damage(){
-                    damage = bullet.damage,
-                });
+                if (!World.IsDisposed(collide.entity))
+                {
+                    damages.Set(collide.entity, new Damage(){
+                        damage = bullet.damage,
+                    });
+                }
                 World.RemoveEntity(entity);
             }
             if (Time.time - bullet.time > bullet.lifetime)

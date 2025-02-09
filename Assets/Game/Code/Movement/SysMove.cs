@@ -27,7 +27,9 @@ public sealed class SysMove : IFixedSystem {
         foreach (var entity in this.filter)
         {
             ref var move = ref moveStash.Get(entity);
-            move.rb.MovePosition(move.rb.transform.position + new Vector3(move.direction.x * move.speed * deltaTime, move.direction.y * move.speed * deltaTime, 0));
+            var transform = move.rb.transform;
+            var posOffset = new Vector3(move.direction.x, move.direction.y, 0);
+            move.rb.MovePosition(transform.position + posOffset * move.speed * deltaTime);
         }
     }
 }

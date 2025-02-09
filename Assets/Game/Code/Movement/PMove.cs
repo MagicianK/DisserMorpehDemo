@@ -11,3 +11,4 @@ public sealed class PMove : MonoProvider<Movement> {
         GetData().rb = GetComponent<Rigidbody2D>();
     }
 }
+
