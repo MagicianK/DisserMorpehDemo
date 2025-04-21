@@ -1,12 +1,10 @@
 using Scellecs.Morpeh.Providers;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 [Il2CppSetOption(Option.NullChecks, false)]
 [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
 [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-public sealed class PObjectRef : MonoProvider<ObjectRef> {
-    protected override void Initialize()
-    {
-        GetData().obj = gameObject;
-    }
+public sealed class ProvidePlayer : MonoProvider<Player> {
 }
+

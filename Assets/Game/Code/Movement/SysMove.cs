@@ -26,10 +26,15 @@ public sealed class SysMove : IFixedSystem {
     {
         foreach (var entity in this.filter)
         {
+
             ref var move = ref moveStash.Get(entity);
+            Quaternion targetRotation = Quaternion.LookRotation(move.rb.transform.forward, move.direction);
+            Quaternion rotation = Quaternion.RotateTowards(move.rb.transform.rotation, targetRotation, move.rotationSpeed * Time.deltaTime);
+
+            move.rb.SetRotation(rotation);
             var transform = move.rb.transform;
-            var posOffset = new Vector3(move.direction.x, move.direction.y, 0);
-            move.rb.MovePosition(transform.position + posOffset * move.speed * deltaTime);
+            transform.up = move.direction;
+            move.rb.linearVelocity = transform.up * move.currentSpeed;
         }
     }
 }

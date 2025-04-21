@@ -12,7 +12,7 @@ public sealed class SysInput : ISystem, Controls.IPlayerActions {
     private Vector2 move;
     private Filter filter;
     private Stash<Movement> moveStash;
-    private Stash<Shoot> shootStash;
+    private Stash<Shooter> shooters;
     private Controls controls;
     private Vector2 look;
     private bool Attack;
@@ -28,7 +28,7 @@ public sealed class SysInput : ISystem, Controls.IPlayerActions {
 
         filter = World.Filter.With<Movement>().With<Player>().Build();
         moveStash = World.GetStash<Movement>();
-        shootStash = World.GetStash<Shoot>();
+        shooters = World.GetStash<Shooter>();
     }
 
     public void OnUpdate(float deltaTime)
@@ -36,16 +36,15 @@ public sealed class SysInput : ISystem, Controls.IPlayerActions {
 
         foreach (var entity in this.filter)
         {
-            if (Attack && !shootStash.Has(entity))
-            {
-                shootStash.Add(entity);
-            }
+            ref var shooter = ref shooters.Get(entity);
+            shooter.shoot = Attack;
             ref var movement = ref moveStash.Get(entity);
             movement.direction = move;
+            movement.currentSpeed = movement.speed * move.magnitude;
             var mousePos = Camera.main.ScreenToWorldPoint(look);
             var transform = movement.rb.transform;
             Vector2 dir = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
-            transform.up = dir;
+            movement.direction = move * dir;
             Attack = false;
         }
     }

@@ -10,7 +10,7 @@ public sealed class SysBullet : ISystem {
     public World World { get; set; }
     private Stash<Colliding> collider;
     private Stash<Bullet> bullets;
-    private Stash<Damage> damages;
+    private Stash<DamageBuffer> damages;
     private Filter filter;
     
     public void Dispose()
@@ -19,29 +19,28 @@ public sealed class SysBullet : ISystem {
     }
     public void OnAwake() {
         collider = World.GetStash<Colliding>();
-        damages = World.GetStash<Damage>();
+        damages = World.GetStash<DamageBuffer>();
         bullets = World.GetStash<Bullet>().AsDisposable();
         this.filter = this.World.Filter.With<Bullet>().Build();
     }
 
     public void OnUpdate(float deltaTime) {
-        foreach (var entity in this.filter)
+        foreach (var bulletEntity in this.filter)
         {
-            ref var collide = ref collider.Get(entity);
-            ref var bullet = ref bullets.Get(entity);
+            ref var collide = ref collider.Get(bulletEntity);
+            ref var bullet = ref bullets.Get(bulletEntity);
             if (collide.collided)
             {
                 if (!World.IsDisposed(collide.entity))
                 {
-                    damages.Set(collide.entity, new Damage(){
-                        damage = bullet.damage,
-                    });
+                    var damageBuffer = damages.Get(collide.entity).value;
+                    damageBuffer.Add(new Damage() { Value = bullet.damage});
                 }
-                World.RemoveEntity(entity);
+                World.RemoveEntity(bulletEntity);
             }
             if (Time.time - bullet.time > bullet.lifetime)
             {
-                World.RemoveEntity(entity);
+                World.RemoveEntity(bulletEntity);
             }
         }
     }

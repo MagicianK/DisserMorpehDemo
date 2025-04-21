@@ -11,7 +11,6 @@ public sealed class SysShoot : ISystem {
 
     private Filter filter;
     private Stash<Shooter> shooters;
-    private Stash<Shoot> shooted;
     private Stash<Movement> moves;
     private Stash<Bullet> bullets;
 
@@ -20,10 +19,9 @@ public sealed class SysShoot : ISystem {
 
     }
     public void OnAwake() {
-        this.filter = World.Filter.With<Shooter>().With<Shoot>().Build();
+        this.filter = World.Filter.With<Shooter>().Build();
         this.shooters = World.GetStash<Shooter>();
         this.moves = World.GetStash<Movement>();
-        this.shooted = World.GetStash<Shoot>();
         this.bullets = World.GetStash<Bullet>();
     }
 
@@ -31,14 +29,14 @@ public sealed class SysShoot : ISystem {
         foreach (var entity in this.filter)
         {
             ref var shooter = ref shooters.Get(entity);
+            if (!shooter.shoot) continue;
             if (Time.time - shooter.time < shooter.reloadCooldown)
             {
-                shooted.Remove(entity);
+                shooter.shoot = false;
                 continue;
             }
             ref var move = ref moves.Get(entity);
             CreateBullet(shooter);
-            shooted.Remove(entity);
             shooter.time = Time.time;
         }
     }
