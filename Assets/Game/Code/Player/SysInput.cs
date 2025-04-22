@@ -39,12 +39,14 @@ public sealed class SysInput : ISystem, Controls.IPlayerActions {
             ref var shooter = ref shooters.Get(entity);
             shooter.shoot = Attack;
             ref var movement = ref moveStash.Get(entity);
-            movement.direction = move;
-            movement.currentSpeed = movement.speed * move.magnitude;
+            movement.direction = this.move;
+            movement.currentSpeed = movement.speed * this.move.magnitude;
             var mousePos = Camera.main.ScreenToWorldPoint(look);
             var transform = movement.rb.transform;
             Vector2 dir = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
-            movement.direction = move * dir;
+            transform.up = dir;
+            movement.rb.linearVelocity = move * movement.currentSpeed;
+            movement.direction = this.move;
             Attack = false;
         }
     }

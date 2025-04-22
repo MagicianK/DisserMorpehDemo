@@ -22,7 +22,7 @@ public sealed class SysAIEnemyMovement : ISystem {
 
     public void OnAwake()
     {
-        this.filter = this.World.Filter.Without<Player>().With<Movement>().With<Attack>().Build();
+        this.filter = this.World.Filter.Without<Player>().With<Movement>().With<AITargeting>() .With<Attack>().Build();
         moveStash = World.GetStash<Movement>();
         scanners = World.GetStash<AITargeting>();
         shooters = World.GetStash<Shooter>();
@@ -40,9 +40,8 @@ public sealed class SysAIEnemyMovement : ISystem {
             var enemyTransform = transforms.Get(attackEntity).transform;
             ref var shooter = ref shooters.Get(entity);
             shooter.shoot = true;
-            move.direction = new Vector2(enemyTransform.position.x, enemyTransform.position.y) - move.rb.position;
+            move.direction = (new Vector2(enemyTransform.position.x, enemyTransform.position.y) - move.rb.position).normalized;
             move.currentSpeed = move.speed;
-            // transform.up = new Vector2(enemyTransform.position.x, enemyTransform.position.y) - move.rb.position;
         }
     }
 }

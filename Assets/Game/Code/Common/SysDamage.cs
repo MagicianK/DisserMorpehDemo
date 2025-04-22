@@ -30,7 +30,6 @@ public sealed class SysDamage : ILateSystem {
             ref var health = ref healths.Get(entity);
             var damage = damageBuffer?.Sum(x => x.Value) ?? 0;
             health.health -= damage;
-            Debug.Log($"Damaged {entity} with {damage}");
             if (health.health <= 0)
                 entity.SetComponent(new DeadTag());
         }

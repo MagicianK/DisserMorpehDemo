@@ -18,7 +18,7 @@ public sealed class SysMove : IFixedSystem {
     public void OnAwake()
     {
         Debug.Log("Hello world");
-        this.filter = this.World.Filter.With<Movement>().Build();
+        this.filter = this.World.Filter.With<Movement>().Without<Player>().Build();
         moveStash = World.GetStash<Movement>();
     }
 
@@ -33,8 +33,8 @@ public sealed class SysMove : IFixedSystem {
 
             move.rb.SetRotation(rotation);
             var transform = move.rb.transform;
-            transform.up = move.direction;
             move.rb.linearVelocity = transform.up * move.currentSpeed;
+            move.currentSpeed = 0;        
         }
     }
 }

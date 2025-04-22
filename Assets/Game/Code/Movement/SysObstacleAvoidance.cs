@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 using Scellecs.Morpeh;
 using System;
+using System.Collections.Generic;
 
 [System.Serializable]
 [Il2CppSetOption(Option.NullChecks, false)]
@@ -10,6 +11,7 @@ using System;
 [Il2CppSetOption(Option.DivideByZeroChecks, false)]
 public struct ObstacleAvoidance : IComponent {
     [NonSerialized] public float obstacleAvoidanceCooldown;
+    [NonSerialized] public Vector2 obstacleAvoidanceTargetDirection;
     public LayerMask obstacleLayerMask;
     public float obstacleCheckCircleRadius;
     public float obstacleCheckDistance;
@@ -25,8 +27,7 @@ public sealed class SysObstacleAvoidance : IFixedSystem {
     private Stash<Movement> moveStash;
     private Stash<ObstacleAvoidance> avoidances;
     private Stash<TransformComponent> transforms;
-    private RaycastHit2D[] _obstacleCollisions = new RaycastHit2D[10];
-    private Vector2 _obstacleAvoidanceTargetDirection;
+    private List<RaycastHit2D> _obstacleCollisions = new List<RaycastHit2D>();
     public void Dispose()
     {
     }
@@ -69,11 +70,11 @@ public sealed class SysObstacleAvoidance : IFixedSystem {
 
                 if (avoidance.obstacleAvoidanceCooldown <= 0)
                 {
-                    _obstacleAvoidanceTargetDirection = obstacleCollision.normal;
+                    avoidance.obstacleAvoidanceTargetDirection = obstacleCollision.normal;
                     avoidance.obstacleAvoidanceCooldown = 0.5f;
                 }
 
-                var targetRotation = Quaternion.LookRotation(transform.forward, _obstacleAvoidanceTargetDirection);
+                var targetRotation = Quaternion.LookRotation(transform.forward, avoidance.obstacleAvoidanceTargetDirection);
                 var rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, avoidance.rotationSpeed * Time.deltaTime);
 
                 move.direction = rotation * Vector2.up;
@@ -81,6 +82,7 @@ public sealed class SysObstacleAvoidance : IFixedSystem {
                 break;
             }
         }
+        _obstacleCollisions.Clear();
     }
 
 }
