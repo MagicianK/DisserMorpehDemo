@@ -200,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &132242128
 MonoBehaviour:
@@ -961,6 +962,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &353051971
 MonoBehaviour:
@@ -1783,6 +1785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &709097046
 MonoBehaviour:
@@ -2027,6 +2030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &817929228
 MonoBehaviour:
@@ -3117,6 +3121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &1145458890
 MonoBehaviour:
@@ -3361,6 +3366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &1161463057
 MonoBehaviour:
@@ -3865,6 +3871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &1235861895
 MonoBehaviour:
@@ -4124,6 +4131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &1339812636
 MonoBehaviour:
@@ -4898,6 +4906,7 @@ GameObject:
   - component: {fileID: 1717437880}
   - component: {fileID: 1717437883}
   - component: {fileID: 1717437884}
+  - component: {fileID: 1717437885}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -5111,7 +5120,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
+--- !u!114 &1717437885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717437876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6004cc59c2c04afb96c6b6d42dad286c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1717812771
 GameObject:
   m_ObjectHideFlags: 0
@@ -5461,6 +5483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     health: 0
+    damages: []
     maxHealth: 100
 --- !u!114 &2132338909
 MonoBehaviour:
