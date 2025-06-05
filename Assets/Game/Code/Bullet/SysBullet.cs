@@ -10,7 +10,7 @@ public sealed class SysBullet : ISystem {
     public World World { get; set; }
     private Stash<Colliding> collider;
     private Stash<Bullet> bullets;
-    private Stash<Damage> damages;
+    private Stash<Health> healths;
     private Filter filter;
     
     public void Dispose()
@@ -19,7 +19,7 @@ public sealed class SysBullet : ISystem {
     }
     public void OnAwake() {
         collider = World.GetStash<Colliding>();
-        damages = World.GetStash<Damage>();
+        healths = World.GetStash<Health>();
         bullets = World.GetStash<Bullet>().AsDisposable();
         this.filter = this.World.Filter.With<Bullet>().Build();
     }
@@ -31,11 +31,10 @@ public sealed class SysBullet : ISystem {
             ref var bullet = ref bullets.Get(entity);
             if (collide.collided)
             {
-                if (!World.IsDisposed(collide.entity))
+                if (!World.IsDisposed(collide.entity) && healths.Has(collide.entity))
                 {
-                    damages.Set(collide.entity, new Damage(){
-                        damage = bullet.damage,
-                    });
+                    var health = healths.Get(collide.entity);
+                    health.damages.Add(bullet.damage);
                 }
                 World.RemoveEntity(entity);
             }

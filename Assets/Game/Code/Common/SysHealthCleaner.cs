@@ -4,12 +4,11 @@ using Unity.IL2CPP.CompilerServices;
 using Scellecs.Morpeh;
 using System.Linq;
 
-public struct DeadTag : IComponent {}
 
 [Il2CppSetOption(Option.NullChecks, false)]
 [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
 [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-public sealed class SysDamage : ISystem {
+public sealed class SysHealthCleaner : ICleanupSystem {
     public World World { get; set; }
     private Stash<Health> healths;
     private Stash<DeadTag> deads;
@@ -29,9 +28,7 @@ public sealed class SysDamage : ISystem {
         foreach (var entity in this.filter)
         {
             ref var health = ref healths.Get(entity);
-            health.health -= health.damages.Sum();
-            if (health.health <= 0)
-                deads.Set(entity);
+            health.damages.Clear();
         }
     }
 }

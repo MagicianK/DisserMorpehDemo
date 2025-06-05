@@ -9,21 +9,18 @@ public class Starter : MonoBehaviour
     {
         world = World.Default;
 
-        var move = new SysMove();
-        var input = new SysInput();
-        var bullet = new SysBullet();
-        var shoot = new SysShoot();
-        var enemy = new SysEnemy();
-        var damage = new SysDamage();
-
         var systemsGroup = world.CreateSystemsGroup();
-        systemsGroup.AddSystem(input);
-        systemsGroup.AddSystem(move);
-        systemsGroup.AddSystem(bullet);
-        systemsGroup.AddSystem(shoot);
-        systemsGroup.AddSystem(enemy);
-        systemsGroup.AddSystem(damage);
-
+        systemsGroup.AddSystem(new SysInput());
+        systemsGroup.AddSystem(new SysMove());
+        systemsGroup.AddSystem(new SysBullet());
+        systemsGroup.AddSystem( new SysShoot());
+        systemsGroup.AddSystem(new SysEnemy());
+        systemsGroup.AddSystem( new SysDamage());
+        systemsGroup.AddSystem(new SysDead());
+        systemsGroup.AddSystem(new SysDamageInvincibility());
+        systemsGroup.AddSystem(new SysInvincibility());
+        systemsGroup.AddSystem(new SysHealthCleaner());
+        systemsGroup.AddSystem(new SysDead());
         world.AddSystemsGroup(order: 0, systemsGroup);
     }
 }

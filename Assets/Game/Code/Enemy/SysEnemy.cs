@@ -10,8 +10,8 @@ using System;
 public sealed class SysEnemy : ISystem {
     public World World { get; set; }
     private Filter filter;
+    private Filter player;
     private Stash<Movement> moveStash;
-    private Stash<Scanner> scanners;
     private Stash<Shoot> shoots;
 
     public void Dispose()
@@ -20,9 +20,9 @@ public sealed class SysEnemy : ISystem {
 
     public void OnAwake()
     {
-        this.filter = this.World.Filter.With<Movement>().With<EnemyTag>().Build();
+        filter = World.Filter.With<Movement>().With<EnemyTag>().Build();
+        player = World.Filter.With<Player>().Build();
         moveStash = World.GetStash<Movement>();
-        scanners = World.GetStash<Scanner>();
         shoots = World.GetStash<Shoot>();
     }
 
@@ -30,15 +30,13 @@ public sealed class SysEnemy : ISystem {
     {
         foreach (var entity in this.filter)
         {
+            if (player.IsEmpty()) return;
             ref var move = ref moveStash.Get(entity);
-            ref var scanner = ref scanners.Get(entity);
-            if (scanner.enemyGo == null) return;
-            var pos = scanner.enemyGo.transform.position;
             move.direction = Vector2.zero;
-            if (!scanner.lost)
-                move.direction = (new Vector2(pos.x, pos.y) - move.rb.position).normalized;
+            Vector2 playerPos = moveStash.Get(player.First()).rb.position;
+            move.direction = (playerPos - move.rb.position).normalized;
             shoots.Set(entity);
-            move.rb.transform.up = new Vector2(pos.x, pos.y) - move.rb.position;
+            move.rb.transform.up = playerPos - move.rb.position;
         }
     }
 }

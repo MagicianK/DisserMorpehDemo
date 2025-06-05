@@ -2,6 +2,8 @@ using Scellecs.Morpeh;
 using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 using System;
+using TriInspector;
+using System.Collections.Generic;
 
 [System.Serializable]
 [Il2CppSetOption(Option.NullChecks, false)]
@@ -26,16 +28,8 @@ public struct Bullet : IComponent, IDisposable {
 [Il2CppSetOption(Option.NullChecks, false)]
 [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
 [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-public struct Damage : IComponent {
-    public float damage;
-}
-
-
-[System.Serializable]
-[Il2CppSetOption(Option.NullChecks, false)]
-[Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-[Il2CppSetOption(Option.DivideByZeroChecks, false)]
 public struct Health : IComponent {
-    [HideInInspector] public float health;
+    [ReadOnly] public float health;
+    public List<float> damages;
     public float maxHealth;
 }

@@ -9,7 +9,8 @@ using UnityEngine;
 public sealed class Collision : MonoProvider<Colliding> {
     private void OnCollisionEnter2D(Collision2D other) {
         GetData().collided = true;
-        GetData().entity = other.gameObject.GetComponent<EntityProvider>().Entity;
+        if (other.gameObject.TryGetComponent<EntityProvider>(out var provider))
+            GetData().entity = provider.Entity;
     }
 }
 
